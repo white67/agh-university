@@ -1,6 +1,9 @@
-def read_data(filename):
+import sys
+
+# funkcja wczytująca pliki składające się na macierz
+def read_data(filename1, filename2):
     x = []
-    with open(filename, "r") as lines:
+    with open(filename1, "r") as lines:
         i = 0
         for line in lines:
             x.append([])
@@ -8,12 +11,24 @@ def read_data(filename):
             for num in numbers:
                 x[i].append(float(num))
             i += 1
+            
+    with open(filename2, "r") as lines:
+        i = 0
+        for line in lines:
+            num = line.strip()
+            x[i].append(float(num))
+            i += 1
+            
     return x
 
+# funkcja wypisująca macierz na ekran
 def printMatrix(matrix):
     for line in matrix:
         for i in range(len(line)):
-            print(line[i], "\t", end="")
+            if abs(line[i]) <= 0.000001:
+                print("0.0", "\t", end="")
+            else:
+                print(round(line[i],2), "\t", end="")
         print("\n", end="")
         
 def pierwszy_etap(macierz):
@@ -23,48 +38,59 @@ def pierwszy_etap(macierz):
             
             j += i + 1
             
+            # Sprawdzenie, czy nie wykracza poza macierz
             if j < len(macierz):
+                
+                # Sprawdzenie, czy element na przekątnej nie jest zerem
+                if macierz[i][i] == 0:
+                    print("\n### 0 na przekątnej!!!")
+                    sys.exit(1)
                     
-                # oblicz mnoznik
+                # obliczanie mnożnika
                 wartosc_mnoznika = macierz[j][i]/macierz[i][i]
                 
-                print(f"\nwartosc_mnoznika: {wartosc_mnoznika}")
-                
+                # iteracja po kolumnach macierzu
                 for k in range(len(macierz[j])):
                     
-                    # odejmij wiersze
+                    # odejmij wiersze aby powstały zera
                     macierz[j][k] = macierz[j][k] - wartosc_mnoznika * macierz[i][k]
-                
-                printMatrix(macierz)
 
         # print(f"\n### {i}.\n")
-        printMatrix(macierz)
+    
+    return macierz
 
 def drugi_etap(macierz):
-    xn = macierz[-1][-1]/macierz[-1][-2]
-    n = len(macierz)-1
     
-    def xi(macierz, i, n):
-        def suma(k, n):
-            wynik = 0
-            for i in range(k, n):
-                wynik += macierz[i][k]*xi(macierz, k, n)
-            print(f"wynik: {wynik}")
-            return wynik
-
-        return (macierz[i][-1] - suma(i+1, n))/macierz[i][i]
+    # stworzenie listy przechowującej wyniki obliczeń
+    wyniki = []
+    for i in range(len(macierz)):
+        wyniki.append(0)
     
-    x0 = xi(macierz, 0, n)
+    # iteracja w dół (od ostatniego wiersza) x_k
+    for i in range(len(macierz)-1, -1, -1):
+        # pobranie wartości na ostatniej prawej kolumnie, b_i = macierz[i][-1]
+        wyniki[i] = macierz[i][-1]
+
+        # suma od i+1 do n, a_ik = macierz[i][j], x_k = wyniki[j]
+        for j in range(i+1, len(macierz)):
+            wyniki[i] -= macierz[i][j] * wyniki[j]
+
+        # a_ii = macierz[i][i]
+        wyniki[i] = wyniki[i] / macierz[i][i]
     
-    print(f"\nx0: {x0}")
-    print(f"\nxn: {xn}")
-    print(f"\nx0 - xn: {x0 - xn}")
+    for line in enumerate(wyniki):
+        print(f"x{line[0]}: {line[1]}")
 
-dane = read_data("C:\\Users\\kamil\\Documents\\GitHub\\Metody-Numeryczne\\Lab 3. Eliminacja Gaussa\\dane.txt")
+dane = read_data("C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 3. Eliminacja Gaussa\\A2.txt", "C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 3. Eliminacja Gaussa\\B2.txt")
 
-
+# 1) macierz przed obliczeniami
+print("1) Macierz przed obliczeniami:")
 printMatrix(dane)
 
-pierwszy_etap(dane)
+# 2) Macierz po pierwszym etapie obliczeń
+print("\n\n2) Macierz po pierwszym etapie obliczeń")
+printMatrix(pierwszy_etap(dane))
 
+# 3)
+print("\n\n3) Rozwiązanie układu równań (x0 - xn)")
 drugi_etap(dane)
