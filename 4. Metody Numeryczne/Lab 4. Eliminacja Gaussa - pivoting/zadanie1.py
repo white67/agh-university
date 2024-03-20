@@ -41,10 +41,23 @@ def pierwszy_etap(macierz):
             # Sprawdzenie, czy nie wykracza poza macierz
             if j < len(macierz):
                 
+                # ustawienie najwiekszej liczby w kolumnie na diagonali
+                wartosc_first = macierz[i][i]
+                swap = macierz[i]
+                g_index = i
+                for g in range(i, len(macierz)):
+                    if macierz[g][i] > wartosc_first:
+                        swap = macierz[g]
+                        wartosc_first = macierz[g][i]
+                        g_index = g
+                # swap wiersze
+                macierz[g_index] = macierz[i]
+                macierz[i] = swap
+    
                 # Sprawdzenie, czy element na przekątnej nie jest zerem
-                if macierz[i][i] == 0:
-                    print("\n### 0 na przekątnej!!!")
-                    sys.exit(1)
+                # if macierz[i][i] == 0:
+                #     print("\n### 0 na przekątnej!!!")
+                #     sys.exit(1)
                     
                 # obliczanie mnożnika
                 wartosc_mnoznika = macierz[j][i]/macierz[i][i]
@@ -81,7 +94,7 @@ def drugi_etap(macierz):
     for line in enumerate(wyniki):
         print(f"x{line[0]}: {line[1]}")
 
-dane = read_data("C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 3. Eliminacja Gaussa\\A2.txt", "C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 3. Eliminacja Gaussa\\B2.txt")
+dane = read_data("C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 4. Eliminacja Gaussa - pivoting\\A2.txt", "C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 4. Eliminacja Gaussa - pivoting\\B2.txt")
 
 # 1) macierz przed obliczeniami
 print("1) Macierz przed obliczeniami:")

@@ -32,8 +32,10 @@ def printMatrix(matrix):
         print("\n", end="")
         
 def pierwszy_etap(macierz):
+    
+    kolumny = list(range(len(macierz)))
+    
     for i in range(len(macierz)):
-        
         for j in range(len(macierz)-1):
             
             j += i + 1
@@ -41,10 +43,22 @@ def pierwszy_etap(macierz):
             # Sprawdzenie, czy nie wykracza poza macierz
             if j < len(macierz):
                 
+                # znajdź największą wartość w danej kolumnie
+                max_value = abs(macierz[i][i])
+                max_index = i
+                for k in range(i, len(macierz)):
+                    if abs(macierz[k][i]) > max_value:
+                        max_value = abs(macierz[k][i])
+                        max_index = k
+                
+                # Zamień kolumnę z maksymalną wartością z aktualną kolumną
+                macierz[i], macierz[max_index] = macierz[max_index], macierz[i]
+                kolumny[i], kolumny[max_index] = kolumny[max_index], kolumny[i]
+    
                 # Sprawdzenie, czy element na przekątnej nie jest zerem
-                if macierz[i][i] == 0:
-                    print("\n### 0 na przekątnej!!!")
-                    sys.exit(1)
+                # if macierz[i][i] == 0:
+                #     print("\n### 0 na przekątnej!!!")
+                #     sys.exit(1)
                     
                 # obliczanie mnożnika
                 wartosc_mnoznika = macierz[j][i]/macierz[i][i]
@@ -57,14 +71,12 @@ def pierwszy_etap(macierz):
 
         # print(f"\n### {i}.\n")
     
-    return macierz
+    return macierz, kolumny
 
-def drugi_etap(macierz):
+def drugi_etap(macierz, kolumny):
     
     # stworzenie listy przechowującej wyniki obliczeń
-    wyniki = []
-    for i in range(len(macierz)):
-        wyniki.append(0)
+    wyniki = [0] * len(macierz)
     
     # iteracja w dół (od ostatniego wiersza) x_k
     for i in range(len(macierz)-1, -1, -1):
@@ -78,19 +90,36 @@ def drugi_etap(macierz):
         # a_ii = macierz[i][i]
         wyniki[i] = wyniki[i] / macierz[i][i]
     
-    for line in enumerate(wyniki):
-        print(f"x{line[0]}: {line[1]}")
+    # Wypisanie wyników
+    for i, x in zip(kolumny, wyniki):
+        print(f"x{i}: {x}")
+    
+    return wyniki
+        
 
-dane = read_data("C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 3. Eliminacja Gaussa\\A2.txt", "C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 3. Eliminacja Gaussa\\B2.txt")
+def wypisz_wyniki(wyniki):
+    # Wypisz wyniki po kolei
+    for i, val in enumerate(wyniki):
+        print(f"x{i}: {val}")
+        
 
-# 1) macierz przed obliczeniami
-print("1) Macierz przed obliczeniami:")
-printMatrix(dane)
+# Funkcja główna
+if __name__ == "__main__":
+    dane = read_data("C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 4. Eliminacja Gaussa - pivoting\\A2.txt", "C:\\Users\\kamil\\Documents\\GitHub\\agh-university\\4. Metody Numeryczne\\Lab 4. Eliminacja Gaussa - pivoting\\B2.txt")
 
-# 2) Macierz po pierwszym etapie obliczeń
-print("\n\n2) Macierz po pierwszym etapie obliczeń")
-printMatrix(pierwszy_etap(dane))
+    # 1) macierz przed obliczeniami
+    print("1) Macierz przed obliczeniami:")
+    printMatrix(dane)
 
-# 3)
-print("\n\n3) Rozwiązanie układu równań (x0 - xn)")
-drugi_etap(dane)
+    # 2) Macierz po pierwszym etapie obliczeń
+    print("\n\n2) Macierz po pierwszym etapie obliczeń")
+    macierz_po_pierwszym_etapie, kolumny = pierwszy_etap(dane)
+    printMatrix(macierz_po_pierwszym_etapie)
+
+    # 3) Rozwiązanie układu równań (x0 - xn)
+    print("\n\n3) Rozwiązanie układu równań (x0 - xn)")
+    wyniki = drugi_etap(macierz_po_pierwszym_etapie, kolumny)
+
+    # 4) Wypisz uporządkowane wyniki
+    print("\n\n4) Uporządkowane wyniki (x0 - xn):")
+    wypisz_wyniki(wyniki)
