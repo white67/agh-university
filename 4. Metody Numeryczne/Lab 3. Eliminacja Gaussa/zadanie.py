@@ -37,7 +37,7 @@ def pierwszy_etap(macierz):
                 
                 printMatrix(macierz)
 
-        print(f"\n### {i}.\n")
+        # print(f"\n### {i}.\n")
         printMatrix(macierz)
 
 def drugi_etap(macierz):
