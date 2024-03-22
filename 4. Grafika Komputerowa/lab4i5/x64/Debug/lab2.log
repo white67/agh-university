@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\kamil\Semestr4\grafika_komputerowa_cpp\lab4i5\main.cpp(108,17): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\kamil\Semestr4\grafika_komputerowa_cpp\lab4i5\main.cpp(111,22): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+  lab2.vcxproj -> C:\Users\kamil\Semestr4\grafika_komputerowa_cpp\lab4i5\x64\Debug\lab2.exe
