@@ -1,0 +1,97 @@
+float Circle(vec2 uv, vec2 p, float r, float blur){
+ float dist = length(uv-p); //length from origin (0,0)
+ float c = smoothstep(r, r-blur, dist);
+
+ return c;
+}
+
+float Square(vec2 uv, vec2 p, float d){
+ float c = 0.;
+
+ if((uv.x > (p.x-d)) && (uv.x < (p.x + d))
+ && (uv.y > (p.y-d)) && (uv.y < (p.y + d))){
+
+ c = 1.;
+
+ }
+
+ return c;
+}
+
+float TRIANGLE_sign(vec2 p1, vec2 p2, vec2 p3)
+{
+ return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
+
+float Triangle(vec2 uv, vec2 p, float d, float blur){
+ vec2 vertices[3] = vec2[]
+ (
+ vec2(p.x, p.y+sqrt(3.)/3.*d),
+ vec2((p.x-d/2.), (p.y-sqrt(3.)/6.*d)),
+ vec2((p.x+d/2.), (p.y-sqrt(3.)/6.*d))
+ );
+ bool b1 = TRIANGLE_sign(uv, vertices[0], vertices[1]) < 0.0f;
+ bool b2 = TRIANGLE_sign(uv, vertices[1], vertices[2]) < 0.0f;
+ bool b3 = TRIANGLE_sign(uv, vertices[2], vertices[0]) < 0.0f;
+
+ if((b1 == b2) && (b2 == b3))return 0.;
+ else
+ return 1.;
+}
+
+
+vec4 drawGrid(vec2 uv, vec2 p, float d){
+     vec4 color = vec4(0.35,.3,.8,.8);
+     
+     
+     for(float iy = -0.4; iy < 0.4; iy += 0.1){
+         for(float ix = -0.8; ix < 0.9; ix += 0.1){
+             color += vec4(vec3(Square(uv, vec2(ix, iy), d)), 1); 
+             color -= vec4(vec3(Square(uv, vec2(ix, iy), d*0.95)), 1);
+         }
+         
+     }
+     
+    for (float iy = -0.3; iy < 0.5; iy += 0.1) {
+        for (float ix = -0.5; ix < 0.3; ix += 0.1) {
+            if(ix<iy){
+                color += vec4(vec3(Circle(uv, vec2(iy, iy), d*0.6, 0.01)), 1);
+            }
+        }
+    }
+    
+    int count = 0;
+    for (float iy = -0.6; iy < 0.9; iy += 0.1) {
+        for (float ix = -0.4; ix < 0.4; ix += 0.1) {
+            if(ix>iy){
+                if(count%2 == 0){
+                    color += vec4(vec3(Circle(uv, vec2(ix+0.1, ix), d*0.6, 0.01)), 1);
+                }
+            }
+        }
+        count += 1;
+    }
+     
+     return color;
+}
+
+
+
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    // Normalized pixel coordinates (from 0 to 1)
+    vec2 uv = fragCoord/iResolution.xy;
+ 
+    uv -= .5;
+    uv.x *= iResolution.x/iResolution.y;
+    //vec2 p = vec2(.2, -.1);
+    float c = 0.;
+    //c += Circle(uv, vec2(.2, -.1), .4, .05);
+    //c += Circle(uv, vec2(-.5, -.2), .1, .01);
+    //c += Square(uv, vec2(.0, .0), .1);
+    //c += Triangle(uv, vec2(.4, .4), .1, .4);
+    //c += Triangle(uv, vec2(.4, .0), .1, .4);
+    //fragColor = vec4(vec3(c), 1);
+    fragColor = drawGrid(uv, vec2(0., 0.), 0.05);
+ 
+}
