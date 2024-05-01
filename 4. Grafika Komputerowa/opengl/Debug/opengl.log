@@ -1,0 +1,27 @@
+﻿  EBO.cpp
+  Main.cpp
+  shaderClass.cpp
+C:\Users\kamil\Downloads\Projekt (1)\Projekt\shaderClass.cpp(10,27): warning C4244: "argument": konwersja z "std::streamoff" do "const unsigned int", możliwa utrata danych
+  VAO.cpp
+  VBO.cpp
+  Camera.cpp
+  stb.cpp
+  Texture.cpp
+  Generowanie kodu...
+  glad.c
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwInit przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwTerminate przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwWindowHint przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwCreateWindow przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwDestroyWindow przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwWindowShouldClose przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwPollEvents przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwMakeContextCurrent przywołany w funkcji _main
+Main.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwSwapBuffers przywołany w funkcji _main
+Camera.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwSetInputMode przywołany w funkcji "public: void __thiscall Camera::Inputs(struct GLFWwindow *)" (?Inputs@Camera@@QAEXPAUGLFWwindow@@@Z)
+Camera.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwGetKey przywołany w funkcji "public: void __thiscall Camera::Inputs(struct GLFWwindow *)" (?Inputs@Camera@@QAEXPAUGLFWwindow@@@Z)
+Camera.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwGetMouseButton przywołany w funkcji "public: void __thiscall Camera::Inputs(struct GLFWwindow *)" (?Inputs@Camera@@QAEXPAUGLFWwindow@@@Z)
+Camera.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwGetCursorPos przywołany w funkcji "public: void __thiscall Camera::Inputs(struct GLFWwindow *)" (?Inputs@Camera@@QAEXPAUGLFWwindow@@@Z)
+Camera.obj : error LNK2019: nierozpoznany symbol zewnętrzny _glfwSetCursorPos przywołany w funkcji "public: void __thiscall Camera::Inputs(struct GLFWwindow *)" (?Inputs@Camera@@QAEXPAUGLFWwindow@@@Z)
+C:\Users\kamil\Documents\GitHub\agh-university\4. Grafika Komputerowa\opengl\Libraries\lib\glfw3.lib : warning LNK4272: wystąpił konflikt typu maszyny biblioteki „x64” z typem maszyny docelowej „x86”
+C:\Users\kamil\Documents\GitHub\agh-university\4. Grafika Komputerowa\opengl\Debug\opengl.exe : fatal error LNK1120: liczba nierozpoznanych elementów zewnętrznych: 14
